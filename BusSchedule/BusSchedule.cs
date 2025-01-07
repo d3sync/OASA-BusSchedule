@@ -5,9 +5,11 @@ namespace BusSchedule
     public partial class BusSchedule : Form
     {
         private readonly BusDataFetcher _busDataFetcher = new BusDataFetcher(null);
+        private bool isHidden { get; set; }
         public BusSchedule()
         {
             InitializeComponent();
+            isHidden = false;
             //timer1.Interval = 1000 * 30;
             timer1.Enabled = true;
             this.Text = $"Bus Schedule Viewer [{_busDataFetcher.BusStop}]";
@@ -22,6 +24,7 @@ namespace BusSchedule
             btn.Click += async (sender, args) =>
             {
                 rtb.Clear();
+                this.Text = $"Bus Schedule Viewer [{_busDataFetcher.BusStop}]";
                 var arrivals = await _busDataFetcher.GetArrivalsAsync();
                 foreach (var arrival in arrivals)
                 {
@@ -77,7 +80,12 @@ namespace BusSchedule
             richTextBox.SelectionFont = new System.Drawing.Font("Consolas", 10, FontStyle.Bold);
             richTextBox.SelectionColor = System.Drawing.Color.Cyan;
             richTextBox.AppendText("Line\t" + "Destination".PadRight(55) + "\tTime\tBus Code\n");
-
+            if (arrivals.Count == 0)
+            {
+                richTextBox.SelectionColor = System.Drawing.Color.Red;
+                richTextBox.AppendText("No buses found\n");
+                return;
+            }
             foreach (var arrival in arrivals)
             {
                 if (_busDataFetcher._storedRoutes.TryGetValue(arrival.route_code, out var route))
@@ -85,7 +93,8 @@ namespace BusSchedule
                     string colorCode = arrival.btime2 switch
                     {
                         var time when int.TryParse(time, out int minutes) && minutes <= 5 => "Red",
-                        var time when int.TryParse(time, out int minutes) && minutes <= 15 => "Yellow",
+                        var time when int.TryParse(time, out int minutes) && minutes <= 7 && minutes >= 6 => "Yellow",
+                        var time when int.TryParse(time, out int minutes) && minutes >= 9 && minutes <= 12 => "Green",
                         _ => "Green"
                     };
 
@@ -108,6 +117,21 @@ namespace BusSchedule
             // open a settings form
             var settingsForm = new SettingsForm(_busDataFetcher);
             settingsForm.ShowDialog();
+        }
+
+        private void showHideToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            isHidden = !isHidden;
+            if (isHidden)
+            {
+                this.Hide();
+                showHideToolStripMenuItem.Text = "Show";
+            }
+            else
+            {
+                this.Show();
+                showHideToolStripMenuItem.Text = "Hide";
+            }
         }
     }
 }

@@ -19,7 +19,8 @@ namespace BusSchedule
             this.Width = 300;
             this.Height = 250;
             this.MaximizeBox = false;
-            
+            this.StartPosition = FormStartPosition.CenterParent;
+            this.ShowIcon = false;
             this.MinimumSize = new Size(this.Width,this.Height);
             this.MaximumSize = new Size(this.Width,this.Height);
 

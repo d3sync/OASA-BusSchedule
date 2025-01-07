@@ -32,14 +32,17 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BusSchedule));
             timer1 = new System.Windows.Forms.Timer(components);
             rtb = new RichTextBox();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            otsmi = new ToolStripMenuItem();
             btn = new Button();
             statusStrip1 = new StatusStrip();
             tsslTimer = new ToolStripStatusLabel();
             ntfy = new NotifyIcon(components);
-            contextMenuStrip1 = new ContextMenuStrip(components);
-            otsmi = new ToolStripMenuItem();
-            statusStrip1.SuspendLayout();
+            contextMenuStrip2 = new ContextMenuStrip(components);
+            showHideToolStripMenuItem = new ToolStripMenuItem();
             contextMenuStrip1.SuspendLayout();
+            statusStrip1.SuspendLayout();
+            contextMenuStrip2.SuspendLayout();
             SuspendLayout();
             // 
             // timer1
@@ -57,6 +60,20 @@
             rtb.Size = new Size(796, 295);
             rtb.TabIndex = 0;
             rtb.Text = "";
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.ImageScalingSize = new Size(20, 20);
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { otsmi });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(131, 28);
+            // 
+            // otsmi
+            // 
+            otsmi.Name = "otsmi";
+            otsmi.Size = new Size(130, 24);
+            otsmi.Text = "Options";
+            otsmi.Click += otsmi_Click;
             // 
             // btn
             // 
@@ -85,23 +102,24 @@
             // 
             // ntfy
             // 
+            ntfy.ContextMenuStrip = contextMenuStrip2;
             ntfy.Icon = (Icon)resources.GetObject("ntfy.Icon");
             ntfy.Text = "Notification";
             ntfy.Visible = true;
             // 
-            // contextMenuStrip1
+            // contextMenuStrip2
             // 
-            contextMenuStrip1.ImageScalingSize = new Size(20, 20);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { otsmi });
-            contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(131, 28);
+            contextMenuStrip2.ImageScalingSize = new Size(20, 20);
+            contextMenuStrip2.Items.AddRange(new ToolStripItem[] { showHideToolStripMenuItem });
+            contextMenuStrip2.Name = "contextMenuStrip2";
+            contextMenuStrip2.Size = new Size(153, 28);
             // 
-            // otsmi
+            // showHideToolStripMenuItem
             // 
-            otsmi.Name = "otsmi";
-            otsmi.Size = new Size(130, 24);
-            otsmi.Text = "Options";
-            otsmi.Click += otsmi_Click;
+            showHideToolStripMenuItem.Name = "showHideToolStripMenuItem";
+            showHideToolStripMenuItem.Size = new Size(152, 24);
+            showHideToolStripMenuItem.Text = "Show/Hide";
+            showHideToolStripMenuItem.Click += showHideToolStripMenuItem_Click;
             // 
             // BusSchedule
             // 
@@ -122,9 +140,10 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "BUS Schedule";
             Load += BusSchedule_Load;
+            contextMenuStrip1.ResumeLayout(false);
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
-            contextMenuStrip1.ResumeLayout(false);
+            contextMenuStrip2.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -139,5 +158,7 @@
         private NotifyIcon ntfy;
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem otsmi;
+        private ContextMenuStrip contextMenuStrip2;
+        private ToolStripMenuItem showHideToolStripMenuItem;
     }
 }

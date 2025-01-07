@@ -127,8 +127,8 @@ public class BusDataFetcher
                 string colorCode = arrival.btime2 switch
                 {
                     var time when int.TryParse(time, out int minutes) && minutes <= 5 => "Red",
-                    var time when int.TryParse(time, out int minutes) && minutes <= 15 => "Yellow",
-                    _ => "Green"
+                    var time when int.TryParse(time, out int minutes) && minutes is <= 12 and >= 6 => "Green",
+                    _ => "White"
                 };
                 sb.AppendLine($"[{colorCode}]{route.LineID}\t{route.LineDescr.PadRight(55)}\t{arrival.btime2}\t{arrival.veh_code}[/{colorCode}]");
             }
